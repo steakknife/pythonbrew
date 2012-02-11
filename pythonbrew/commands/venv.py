@@ -2,7 +2,7 @@ import os
 import sys
 from pythonbrew.basecommand import Command
 from pythonbrew.define import PATH_PYTHONS, PATH_VENVS, PATH_HOME_ETC_VENV,\
-    PATH_ETC, VIRTUALENV_DLSITE, PATH_DISTS
+    PATH_ETC, VIRTUALENV_DLSITE, VIRTUALENV_HASH, PATH_DISTS
 from pythonbrew.util import Package, \
     is_installed, get_installed_pythons_pkgname, get_using_python_pkgname,\
     untar_file, Subprocess, rm_r
@@ -87,7 +87,7 @@ class VenvCommand(Command):
             sys.exit(1)
         d = Downloader()
         download_file = os.path.join(PATH_DISTS, 'virtualenv.tar.gz')
-        d.download('virtualenv.tar.gz', VIRTUALENV_DLSITE, download_file)
+        d.download('virtualenv.tar.gz', VIRTUALENV_DLSITE, download_file, VIRTUALENV_HASH)
         logger.info('Extracting virtualenv into %s' % self._venv_dir)
         untar_file(download_file, self._venv_dir)
     

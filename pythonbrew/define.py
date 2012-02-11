@@ -66,12 +66,15 @@ def _get_or_default(section, option, default=''):
 
 # setuptools download
 DISTRIBUTE_SETUP_DLSITE = _get_or_default('distribute', 'url')
+DISTRIBUTE_SETUP_HASH = _get_or_default('distribute', 'hash')
 
 # buildout bootstrap download
 BOOTSTRAP_DLSITE = _get_or_default('bootstrap', 'url')
+BOOTSTRAP_HASH = _get_or_default('bootstrap', 'hash')
 
 # virtualenv download
 VIRTUALENV_DLSITE = _get_or_default('virtualenv', 'url')
+VIRTUALENV_HASH = _get_or_default('virtualenv', 'hash')
 
 # pythonbrew download
 PYTHONBREW_UPDATE_URL_MASTER = _get_or_default('pythonbrew', 'master')
@@ -85,12 +88,16 @@ PYTHONBREW_STABLE_VERSION_URL = _get_or_default('pythonbrew', 'stable-version')
 # python download
 LATEST_VERSIONS_OF_PYTHON = []
 PYTHON_VERSION_URL = {}
+PYTHON_HASHES = {}
 PYTHON_VERSION_URL["1.5.2"] = _get_or_default('Python-1.5.2', 'url')
+PYTHON_HASHES["1.5.2"] = _get_or_default('Python-1.5.2', 'hash')
 PYTHON_VERSION_URL["1.6.1"] = _get_or_default('Python-1.6.1', 'url')
+PYTHON_HASHES["1.6.1"] = _get_or_default('Python-1.6.1', 'hash')
 for section in sorted(config.sections()):
     m = re.search("^Python-(.*)$", section)
     if m:
         version = m.group(1)
         PYTHON_VERSION_URL[version] = config.get(section, 'url')
+        PYTHON_HASHES[version] = config.get(section, 'hash')
         if config.has_option(section, 'latest') and config.getboolean(section, 'latest'):
             LATEST_VERSIONS_OF_PYTHON.append(version)

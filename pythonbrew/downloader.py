@@ -1,4 +1,4 @@
-from pythonbrew.define import PYTHON_VERSION_URL, PYTHONBREW_STABLE_VERSION_URL, \
+from pythonbrew.define import PYTHON_VERSION_URL, PYTHON_HASHES, PYTHONBREW_STABLE_VERSION_URL, \
     PYTHONBREW_UPDATE_URL_PYPI, PYTHONBREW_UPDATE_URL_MASTER,\
     PYTHONBREW_UPDATE_URL_DEVELOP
 from pythonbrew.log import logger
@@ -42,3 +42,6 @@ def get_pythonbrew_update_url(version):
 
 def get_python_version_url(version):
     return PYTHON_VERSION_URL.get(version)
+
+def get_python_hash(version):
+    return PYTHON_HASHES.get(version)

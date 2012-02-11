@@ -10,10 +10,10 @@ from pythonbrew.util import makedirs, symlink, Package, is_url, Link,\
     fileurl_to_path, is_python30, is_python31, is_python32,\
     get_macosx_deployment_target, Version
 from pythonbrew.define import PATH_BUILD, PATH_DISTS, PATH_PYTHONS,\
-    ROOT, PATH_LOG, DISTRIBUTE_SETUP_DLSITE,\
+    ROOT, PATH_LOG, DISTRIBUTE_SETUP_DLSITE, DISTRIBUTE_SETUP_HASH,\
     PATH_PATCHES_MACOSX_PYTHON25, PATH_PATCHES_MACOSX_PYTHON24,\
     PATH_PATCHES_MACOSX_PYTHON26, PATH_PATCHES_MACOSX_PYTHON27, PATH_PATCHES_ALL
-from pythonbrew.downloader import get_python_version_url, Downloader,\
+from pythonbrew.downloader import get_python_version_url, get_python_hash, Downloader,\
     get_headerinfo_from_url
 from pythonbrew.log import logger
 from pythonbrew.exceptions import UnknownVersionException,\
@@ -33,11 +33,13 @@ class PythonInstaller(object):
         
         if is_url(name):
             self.download_url = name
+            self.download_hash = None
             filename = Link(self.download_url).filename
             pkg = Package(filename, options.alias)
         else:
             pkg = Package(name, options.alias)
             self.download_url = get_python_version_url(pkg.version)
+            self.download_hash = get_python_hash(pkg.version)
             if not self.download_url:
                 logger.error("Unknown python version: `%s`" % pkg.name)
                 raise UnknownVersionException
@@ -110,7 +112,7 @@ class PythonInstaller(object):
             base_url = Link(self.download_url).base_url
             try:
                 dl = Downloader()
-                dl.download(base_url, self.download_url, self.download_file)
+                dl.download(base_url, self.download_url, self.download_file, self.download_hash)
             except:
                 unlink(self.download_file)
                 logger.error("Failed to download.\n%s" % (sys.exc_info()[1]))
@@ -233,9 +235,10 @@ class PythonInstaller(object):
         download_url = DISTRIBUTE_SETUP_DLSITE
         filename = Link(download_url).filename
         download_file = os.path.join(PATH_DISTS, filename)
+        download_hash = DISTRIBUTE_SETUP_HASH
 
         dl = Downloader()
-        dl.download(filename, download_url, download_file)
+        dl.download(filename, download_url, download_file, download_hash)
 
         install_dir = os.path.join(PATH_PYTHONS, pkgname)
         path_python = os.path.join(install_dir,"bin","python")

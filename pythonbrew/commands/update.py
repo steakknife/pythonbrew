@@ -61,7 +61,7 @@ class UpdateCommand(Command):
         download_file = PATH_ETC_CONFIG
         try:
             d = Downloader()
-            d.download(distname, download_url, download_file)
+            d.download(distname, download_url, download_file) # No hash checking, pythonbrew cant figure out its hash in the future without a delorean
         except:
             logger.error("Failed to download. `%s`" % download_url)
             sys.exit(1)
@@ -95,7 +95,7 @@ class UpdateCommand(Command):
         download_file = os.path.join(PATH_DISTS, distname)
         try:
             d = Downloader()
-            d.download(distname, download_url, download_file)
+            d.download(distname, download_url, download_file) # No hash checking, pythonbrew cant figure out its hash in the future without a delorean
         except:
             logger.error("Failed to download. `%s`" % download_url)
             sys.exit(1)
