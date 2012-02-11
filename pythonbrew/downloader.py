@@ -19,7 +19,7 @@ class Downloader(object):
         c = Curl()
         c.fetch(url, path)
         if _hash:
-            self.check_hash(self, msg, path, _hash)
+            self.check_hash(msg, path, _hash)
             
     def check_hash(self, msg, path, _hash):
         import hashlib
