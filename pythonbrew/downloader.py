@@ -23,7 +23,7 @@ class Downloader(object):
             
     def check_hash(self, msg, path, _hash):
         import hashlib
-        hasher = hashlib.sha()
+        hasher = hashlib.sha1()
         with open(path,'rb') as f: 
             for chunk in iter(lambda: f.read(8192), ''): 
                 hasher.update(chunk)
